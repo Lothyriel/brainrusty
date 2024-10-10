@@ -1,12 +1,10 @@
-use std::collections::VecDeque;
-
 use crate::{parser::Construct, Error};
 
 const TAPE_SIZE: usize = 1024;
 
 #[derive(Debug)]
 struct Interpreter {
-    input: VecDeque<u8>,
+    input: Vec<u8>,
     output: Vec<u8>,
     tape: [u8; TAPE_SIZE],
     cell_idx: usize,
@@ -14,7 +12,7 @@ struct Interpreter {
 }
 
 impl Interpreter {
-    fn new(input: VecDeque<u8>) -> Self {
+    fn new(input: Vec<u8>) -> Self {
         Self {
             tape: [0; TAPE_SIZE],
             output: vec![],
@@ -103,7 +101,7 @@ impl Interpreter {
     }
 
     fn read(&mut self) -> Result<(), RuntimeError> {
-        let input = self.input.pop_front().ok_or(RuntimeError::ExpectedInput)?;
+        let input = self.input.pop().ok_or(RuntimeError::ExpectedInput)?;
         let cell = self.cell_mut()?;
 
         *cell = input;
@@ -151,7 +149,7 @@ impl From<RuntimeError> for Error {
 }
 
 pub fn interpret(instructions: &[Construct], input: Vec<u8>) -> Result<Vec<u8>, RuntimeError> {
-    let mut interpreter = Interpreter::new(input.into());
+    let mut interpreter = Interpreter::new(input);
 
     interpreter.process(instructions)?;
 

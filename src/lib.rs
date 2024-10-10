@@ -6,7 +6,7 @@ mod lexer;
 mod parser;
 
 pub fn interpret(code: &str, input: Option<&str>) -> Result<String, Error> {
-    let input = input.map(|i| i.bytes().collect()).unwrap_or_default();
+    let input = input.map(|i| i.bytes().rev().collect()).unwrap_or_default();
 
     let instructions = lexer::tokenize(code);
     let parsed = parser::parse(&instructions)?;
