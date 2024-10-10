@@ -33,6 +33,13 @@ mod tests {
     }
 
     #[test]
+    fn output_hello_world_nested() {
+        let input = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.";
+        let result = interpret(input, None);
+        assert_eq!(result, Ok("Hello World!".to_string()));
+    }
+
+    #[test]
     fn output_a() {
         let input = "--[----->+<]>-----.";
         let result = interpret(input, None);
