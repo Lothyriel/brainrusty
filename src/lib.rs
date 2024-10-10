@@ -52,4 +52,21 @@ mod tests {
         let result = interpret(input, None);
         assert_eq!(result, Ok("!".to_string()));
     }
+
+    #[test]
+    fn output_head_10() {
+        let input = "+>>>>>>>>>>-[,+[-.----------[[-]>]<->]<]";
+
+        let file = include_str!("lexer.rs");
+
+        let result = interpret(input, Some(file));
+
+        let expected = file.lines().take(10).fold(String::new(), |mut acc, l| {
+            acc += l;
+            acc += "\n";
+            acc
+        });
+
+        assert_eq!(result, Ok(expected));
+    }
 }
